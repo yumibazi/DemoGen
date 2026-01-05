@@ -1,0 +1,86 @@
+# Template Configuration for Custom Task
+# Copy this file and customize it for your own task
+#
+# Usage:
+#   1. Copy this file: cp template.yaml my_task.yaml
+#   2. Edit the parameters below to match your task
+#   3. Run: python gen_demo.py --config-name=my_task
+
+_target_: demo_generation.demogen.DemoGen
+
+# Data Configuration
+# ------------------
+data_root: data
+source_name: my_task  # CHANGE THIS: Must match your .zarr file name (without .zarr extension)
+
+# Task Parameters
+# ---------------
+task_n_object: 1  # CHANGE THIS: Number of objects manipulated (1, 2, etc.)
+
+# Motion Interpolation (Advanced)
+# --------------------------------
+use_linear_interpolation: false
+interpolate_step_size: 0.01
+
+# Trajectory Parsing
+# ------------------
+# Option 1: Manual parsing (RECOMMENDED)
+# Set the frame numbers where each motion/skill segment starts
+use_manual_parsing_frames: true
+parsing_frames:
+  motion-1: 0      # CHANGE THIS: Frame where robot starts approaching object 1
+  skill-1: 10      # CHANGE THIS: Frame where robot starts manipulating object 1
+  # For multi-object tasks (task_n_object >= 2), also specify:
+  # motion-2: 50   # Frame where robot starts approaching object 2
+  # skill-2: 60    # Frame where robot starts manipulating object 2
+
+# Option 2: Automatic parsing (requires tuning)
+# Uncomment this to use automatic trajectory parsing:
+# use_manual_parsing_frames: false
+
+# Object Segmentation (for point cloud editing)
+# ----------------------------------------------
+# Use natural language descriptions for objects
+mask_names:
+  object: red cup            # CHANGE THIS: Description of the object to manipulate
+  target: wooden table       # CHANGE THIS: Description of the target location
+  # For single-object tasks without a specific target, you can simplify:
+  # object: red cup
+
+# Spatial Augmentation Ranges
+# ----------------------------
+# Define how objects should be repositioned in generated demos
+# Format: [[x_min, y_min, z_min], [x_max, y_max, z_max]] in meters
+trans_range:
+  src:  # Source demos (no transformation, for testing)
+    object: [[0, 0, 0], [0, 0, 0]]
+    target: [[0, 0, 0], [0, 0, 0]]
+  test:  # Generated demos (with spatial augmentation)
+    object: [[-0.10, -0.10, 0], [0.10, 0.10, 0]]  # CHANGE THIS: ±10cm in x,y, z=0 (no z variation)
+    target: [[-0.10, -0.10, 0], [0.10, 0.10, 0]]  # CHANGE THIS: ±10cm in x,y, z=0 (no z variation)
+    # Note: z is typically kept at 0 for table-top tasks. For tasks requiring height variation:
+    # object: [[-0.10, -0.10, -0.05], [0.10, 0.10, 0.05]]  # With ±5cm z variation
+  # You can add more ranges, e.g., for training vs. testing:
+  # train:
+  #   object: [[-0.05, -0.05, 0], [0.05, 0.05, 0]]  # Smaller range for training
+  #   target: [[-0.05, -0.05, 0], [0.05, 0.05, 0]]
+
+# Generation Settings
+# -------------------
+generation:
+  range_name: test  # CHANGE THIS: Which trans_range to use ('src', 'test', 'train', etc.)
+  n_gen_per_source: 16  # CHANGE THIS: Number of synthetic demos per source demo
+                         # For mode='grid', must be a perfect square (4, 9, 16, 25, ...)
+                         # For mode='random', can be any number
+  render_video: True    # CHANGE THIS: Set to False to skip video rendering (faster)
+  mode: grid            # CHANGE THIS: 'grid' for uniform grid, 'random' for random positions
+
+# Tips:
+# -----
+# 1. Start with range_name='src' and render_video=True to visualize source demos
+# 2. Identify parsing frames by watching the rendered video (frame numbers shown in corner)
+# 3. Update parsing_frames with the correct values
+# 4. Switch to range_name='test' to generate augmented demos
+# 5. Adjust trans_range based on your workspace size and task requirements
+# 6. Use n_gen_per_source=4 or 9 initially for quick testing
+# 7. Set render_video=False when generating large datasets for training
