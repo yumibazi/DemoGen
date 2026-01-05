@@ -2,6 +2,10 @@
 
 This guide explains how to use your own `.pkl` (pickle) data files with the DemoGen method to generate synthetic demonstrations.
 
+## ⚠️ Security Note
+
+This workflow uses Python's `pickle` module to load demonstration data. **Only use PKL files from trusted sources that you created or verified.** Pickle files can execute arbitrary code when loaded, so never load PKL files from untrusted or unknown sources.
+
 ## Overview
 
 DemoGen accepts demonstration data in `.zarr` format, but you can easily convert your own `.pkl` files to the required format. The workflow consists of three main steps:

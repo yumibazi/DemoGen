@@ -12,13 +12,26 @@ import sys
 import pickle
 import numpy as np
 from pathlib import Path
-from termcolor import cprint
+
+# Try to import termcolor, fallback to regular print if not available
+try:
+    from termcolor import cprint
+except ImportError:
+    def cprint(text, color=None):
+        """Fallback function when termcolor is not available."""
+        print(text)
 
 
 def validate_pkl_file(pkl_path):
-    """Validate a single PKL file."""
+    """Validate a single PKL file.
+    
+    Security Note: This function uses pickle.load() which can execute arbitrary code.
+    Only use this tool with PKL files from trusted sources that you created or verified.
+    """
     try:
         with open(pkl_path, 'rb') as f:
+            # WARNING: pickle.load() can execute arbitrary code
+            # Only load PKL files from trusted sources
             data = pickle.load(f)
     except Exception as e:
         cprint(f"❌ Error loading {pkl_path}: {e}", "red")
@@ -187,6 +200,9 @@ def print_usage():
     cprint("\n" + "=" * 80, "cyan")
     cprint("DemoGen PKL File Validator", "cyan")
     cprint("=" * 80, "cyan")
+    print("\n⚠️  SECURITY WARNING:")
+    print("  This tool uses pickle.load() which can execute arbitrary code.")
+    print("  Only use with PKL files from trusted sources that you created or verified.")
     print("\nUsage:")
     print("  python validate_pkl.py <path>")
     print("\nExamples:")
