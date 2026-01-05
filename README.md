@@ -26,6 +26,9 @@ For action generation, 𝑫𝒆𝒎𝒐𝑮𝒆𝒏 adopts the idea of Task and 
 
 
 # 🚀 Quick Try in 5 Minutes
+
+## Quick Try With Provided Examples
+
 ## 1. Minimal Installation
 #### 1.0. Create conda Env
 ```bash
@@ -69,6 +72,28 @@ We provide some example generation commands in the `demo_generation/run_gen_demo
 cd demo_generation
 bash run_gen_demo.sh
 ```
+
+## Quick Try With Your Own PKL Data
+
+If you have your own demonstration data in `.pkl` format:
+
+```bash
+# 1. Validate your PKL files
+python scripts/validate_pkl.py data/source_demos/my_task/
+
+# 2. Convert to zarr format
+cd real_world && python merge_zarr.py my_task && cd ..
+
+# 3. Copy config template and customize
+cp demo_generation/demo_generation/config/template.yaml \
+   demo_generation/demo_generation/config/my_task.yaml
+# Edit my_task.yaml for your task
+
+# 4. Generate synthetic demos
+cd demo_generation && python gen_demo.py --config-name=my_task && cd ..
+```
+
+See [**Custom PKL Data Guide**](docs/4_use_custom_pkl_data.md) ([中文](docs/4_use_custom_pkl_data_zh.md)) for detailed instructions.
 
 
 # 🛠️ Run On Your Own Tasks
