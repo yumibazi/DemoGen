@@ -17,7 +17,7 @@ from pathlib import Path
 try:
     from termcolor import cprint
 except ImportError:
-    def cprint(text, color=None):
+    def cprint(text, color=None, **kwargs):
         """Fallback function when termcolor is not available."""
         print(text)
 
@@ -200,9 +200,9 @@ def print_usage():
     cprint("\n" + "=" * 80, "cyan")
     cprint("DemoGen PKL File Validator", "cyan")
     cprint("=" * 80, "cyan")
-    print("\n⚠️  SECURITY WARNING:")
-    print("  This tool uses pickle.load() which can execute arbitrary code.")
-    print("  Only use with PKL files from trusted sources that you created or verified.")
+    cprint("\n⚠️  SECURITY WARNING:", "yellow")
+    cprint("  This tool uses pickle.load() which can execute arbitrary code.", "yellow")
+    cprint("  Only use with PKL files from trusted sources that you created or verified.", "yellow")
     print("\nUsage:")
     print("  python validate_pkl.py <path>")
     print("\nExamples:")

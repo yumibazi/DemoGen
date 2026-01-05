@@ -207,21 +207,35 @@ generation:
 #### Trajectory Parsing
 
 DemoGen requires parsing the trajectory into segments:
-- **Motion segment**: Robot approaches the object
-- **Skill segment**: Robot manipulates the object through contact
+- **Motion segment**: Robot approaches the object (typically smooth, continuous motion toward the object)
+- **Skill segment**: Robot manipulates the object through contact (e.g., grasping, pushing, placing)
+
+**How to identify the transition point:**
+1. **Visual inspection**: Watch the robot movement - the transition occurs when the robot makes contact with the object
+2. **Distance-based**: The transition is typically when the distance between end-effector and object becomes very small (< 2-5cm)
+3. **Gripper state**: For grasping tasks, the transition often coincides with gripper state change (opening → closing)
+4. **Velocity change**: Motion segments usually have higher velocity than skill segments which involve careful manipulation
 
 **Option 1: Manual Parsing (Recommended)**
 1. Set `use_manual_parsing_frames: true`
 2. Run generation with `range_name: src` and `render_video: True`
 3. Watch the generated video and note the frame numbers where:
-   - Motion starts (usually 0)
-   - Contact begins (skill starts)
+   - Motion starts (usually frame 0)
+   - Contact begins / gripper closes / object starts moving (skill starts)
+   - The frame number is displayed in the top-left corner of the video
 4. Update `parsing_frames` accordingly
+
+**Example for a pick-and-place task:**
+- Frame 0-15: Robot moves toward object (motion-1)
+- Frame 16-30: Robot grasps object (skill-1)
+- Frame 31-50: Robot moves toward target (motion-2)
+- Frame 51-65: Robot places object (skill-2)
 
 **Option 2: Automatic Parsing**
 - Set `use_manual_parsing_frames: false`
 - The system will try to detect contact based on distance thresholds
 - May require tuning for your specific task
+- Less reliable than manual specification
 
 #### Object Segmentation
 

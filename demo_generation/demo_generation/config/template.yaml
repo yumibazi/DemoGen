@@ -56,8 +56,10 @@ trans_range:
     object: [[0, 0, 0], [0, 0, 0]]
     target: [[0, 0, 0], [0, 0, 0]]
   test:  # Generated demos (with spatial augmentation)
-    object: [[-0.10, -0.10, 0], [0.10, 0.10, 0]]  # CHANGE THIS: ±10cm in x,y
-    target: [[-0.10, -0.10, 0], [0.10, 0.10, 0]]  # CHANGE THIS: ±10cm in x,y
+    object: [[-0.10, -0.10, 0], [0.10, 0.10, 0]]  # CHANGE THIS: ±10cm in x,y, z=0 (no z variation)
+    target: [[-0.10, -0.10, 0], [0.10, 0.10, 0]]  # CHANGE THIS: ±10cm in x,y, z=0 (no z variation)
+    # Note: z is typically kept at 0 for table-top tasks. For tasks requiring height variation:
+    # object: [[-0.10, -0.10, -0.05], [0.10, 0.10, 0.05]]  # With ±5cm z variation
   # You can add more ranges, e.g., for training vs. testing:
   # train:
   #   object: [[-0.05, -0.05, 0], [0.05, 0.05, 0]]  # Smaller range for training
