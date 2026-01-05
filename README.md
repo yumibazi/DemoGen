@@ -72,7 +72,22 @@ bash run_gen_demo.sh
 
 
 # 🛠️ Run On Your Own Tasks
-As long as your task requires to collect a handful of demonstrations to overcome the spatial generalization problem, 𝑫𝒆𝒎𝒐𝑮𝒆𝒏 could be your remedy for saving the repetitive human labor. As is proved by the experiments we have conducted in our paper, 𝑫𝒆𝒎𝒐𝑮𝒆𝒏 is generally effective for various types of tasks, even those involving contact-rich motion skills. To help you apply 𝑫𝒆𝒎𝒐𝑮𝒆𝒏 to your own task, we prepare a detailed guide under the `docs` folder. Check it out if you are interested!
+As long as your task requires to collect a handful of demonstrations to overcome the spatial generalization problem, 𝑫𝒆𝒎𝒐𝑮𝒆𝒏 could be your remedy for saving the repetitive human labor. As is proved by the experiments we have conducted in our paper, 𝑫𝒆𝒎𝒐𝑮𝒆𝒏 is generally effective for various types of tasks, even those involving contact-rich motion skills. 
+
+## 📦 Using Your Own PKL Data
+If you already have demonstration data in `.pkl` format, we provide a comprehensive guide to help you use it with 𝑫𝒆𝒎𝒐𝑮𝒆𝒏. Check out the [**Custom PKL Data Guide**](docs/4_use_custom_pkl_data.md) for:
+- Required data format specifications
+- Step-by-step conversion from `.pkl` to `.zarr`
+- Configuration file setup
+- Validation tools and troubleshooting tips
+
+## 📚 Detailed Guides
+For comprehensive instructions on applying 𝑫𝒆𝒎𝒐𝑮𝒆𝒏 to your own tasks, we prepare detailed guides under the `docs` folder:
+- [Installation Guide](docs/0_install.md)
+- [Data Collection](docs/1_data_collection.md)
+- [Data Generation](docs/2_data_generation.md)
+- [Training Policies](docs/3_train_policies.md)
+- [**Using Custom PKL Data**](docs/4_use_custom_pkl_data.md) ⭐ NEW
 
 
 # 🏷️ License
